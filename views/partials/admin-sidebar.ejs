@@ -1,0 +1,25 @@
+<button class="admin-toggle" onclick="document.querySelector('.admin-sidebar').classList.toggle('open')"><i class="bi bi-list"></i></button>
+
+<aside class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <div class="header-brand"><div class="brand-icon"><i class="bi bi-lightning-charge-fill"></i></div><span class="brand-text">Admin Panel</span></div>
+  </div>
+  <nav class="admin-sidebar-nav">
+    <a href="/admin" class="admin-nav-item <%= title === 'Admin Dashboard' ? 'active' : '' %>"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+    <a href="/admin/users" class="admin-nav-item <%= title === 'User Management' ? 'active' : '' %>"><i class="bi bi-people-fill"></i> Users</a>
+    <a href="/admin/deposits" class="admin-nav-item <%= title === 'Deposit Management' ? 'active' : '' %>"><i class="bi bi-wallet2"></i> Deposits</a>
+    <a href="/admin/apis" class="admin-nav-item <%= title === 'API Management' ? 'active' : '' %>"><i class="bi bi-box-seam-fill"></i> APIs</a>
+    <a href="/admin/activations" class="admin-nav-item <%= title === 'API Activations' ? 'active' : '' %>"><i class="bi bi-lightning-fill"></i> Activations</a>
+    <a href="/admin/feedback" class="admin-nav-item <%= title === 'Feedback Management' ? 'active' : '' %>"><i class="bi bi-chat-heart-fill"></i> Feedback</a>
+    <a href="/admin/tasks" class="admin-nav-item <%= title === 'Social Tasks' ? 'active' : '' %>"><i class="bi bi-trophy-fill"></i> Tasks</a>
+    <a href="/admin/policies" class="admin-nav-item <%= title === 'Policies' ? 'active' : '' %>"><i class="bi bi-file-text-fill"></i> Policies</a>
+    <a href="/admin/settings" class="admin-nav-item <%= title === 'Settings' ? 'active' : '' %>"><i class="bi bi-gear-fill"></i> Settings</a>
+    <a href="/admin/logs" class="admin-nav-item <%= title === 'Activity Logs' ? 'active' : '' %>"><i class="bi bi-journal-text"></i> Logs</a>
+    <% if (typeof isSuperAdmin !== 'undefined' && isSuperAdmin) { %>
+    <a href="/admin/admins" class="admin-nav-item <%= title === 'Admin Management' ? 'active' : '' %>"><i class="bi bi-shield-fill-check"></i> Admins</a>
+    <% } %>
+    <hr style="border-color:var(--border-color);margin:12px 0;">
+    <a href="/" class="admin-nav-item"><i class="bi bi-house"></i> View Site</a>
+    <a href="/admin/logout" class="admin-nav-item" style="color:var(--danger);"><i class="bi bi-box-arrow-right"></i> Logout</a>
+  </nav>
+</aside>
