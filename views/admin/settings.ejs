@@ -1,0 +1,100 @@
+<%- include('../partials/head') %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-main">
+  <div class="admin-topbar"><h1 class="admin-page-title">Settings</h1></div>
+
+  <form method="POST" action="/admin/settings" enctype="multipart/form-data">
+    <!-- General -->
+    <div class="glass-card mb-4">
+      <h6 style="font-family:var(--font-display);font-weight:600;margin-bottom:16px;"><i class="bi bi-gear me-2"></i>General</h6>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Website Name</label>
+          <input type="text" name="site_name" class="form-control form-input" value="<%= settings.site_name || '' %>">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Logo</label>
+          <% if (settings.logo_url) { %><div class="mb-1"><img src="<%= settings.logo_url %>" style="max-height:30px;border-radius:6px;"></div><% } %>
+          <input type="file" name="logo" class="form-control form-input" accept="image/*">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Contact Number</label>
+          <input type="text" name="contact_number" class="form-control form-input" value="<%= settings.contact_number || '' %>">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">UPI ID</label>
+          <input type="text" name="upi_id" class="form-control form-input" value="<%= settings.upi_id || '' %>">
+        </div>
+        <div class="col-12">
+          <label class="form-label">Deposit QR Code URL</label>
+          <input type="text" name="deposit_qr" class="form-control form-input" value="<%= settings.deposit_qr || '' %>">
+        </div>
+      </div>
+    </div>
+
+    <!-- Deposit Control -->
+    <div class="glass-card mb-4">
+      <h6 style="font-family:var(--font-display);font-weight:600;margin-bottom:16px;"><i class="bi bi-wallet2 me-2"></i>Deposit Control</h6>
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Min Deposit (₹)</label>
+          <input type="number" name="min_deposit" class="form-control form-input" value="<%= settings.min_deposit || '100' %>">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Max Deposit (₹)</label>
+          <input type="number" name="max_deposit" class="form-control form-input" value="<%= settings.max_deposit || '50000' %>">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Bonus (%)</label>
+          <input type="number" name="deposit_bonus_percent" class="form-control form-input" value="<%= settings.deposit_bonus_percent || '0' %>" step="0.1">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Deposits</label>
+          <select name="deposit_enabled" class="form-control form-input">
+            <option value="1" <%= settings.deposit_enabled === '1' ? 'selected' : '' %>>Enabled</option>
+            <option value="0" <%= settings.deposit_enabled === '0' ? 'selected' : '' %>>Disabled</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="glass-card mb-4">
+      <h6 style="font-family:var(--font-display);font-weight:600;margin-bottom:16px;"><i class="bi bi-shield-lock me-2"></i>Security</h6>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">OTP Required for Registration</label>
+          <select name="otp_required_register" class="form-control form-input">
+            <option value="1" <%= settings.otp_required_register === '1' ? 'selected' : '' %>>Yes</option>
+            <option value="0" <%= settings.otp_required_register === '0' ? 'selected' : '' %>>No</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">OTP Required for Login</label>
+          <select name="otp_required_login" class="form-control form-input">
+            <option value="1" <%= settings.otp_required_login === '1' ? 'selected' : '' %>>Yes</option>
+            <option value="0" <%= settings.otp_required_login === '0' ? 'selected' : '' %>>No</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="glass-card mb-4">
+      <h6 style="font-family:var(--font-display);font-weight:600;margin-bottom:16px;"><i class="bi bi-share me-2"></i>Social Links</h6>
+      <div class="row g-3">
+        <div class="col-md-6"><label class="form-label"><i class="bi bi-telegram me-1"></i>Telegram</label><input type="text" name="telegram_link" class="form-control form-input" value="<%= settings.telegram_link || '' %>"></div>
+        <div class="col-md-6"><label class="form-label"><i class="bi bi-whatsapp me-1"></i>WhatsApp</label><input type="text" name="whatsapp_link" class="form-control form-input" value="<%= settings.whatsapp_link || '' %>"></div>
+        <div class="col-md-6"><label class="form-label"><i class="bi bi-youtube me-1"></i>YouTube</label><input type="text" name="youtube_link" class="form-control form-input" value="<%= settings.youtube_link || '' %>"></div>
+        <div class="col-md-6"><label class="form-label"><i class="bi bi-instagram me-1"></i>Instagram</label><input type="text" name="instagram_link" class="form-control form-input" value="<%= settings.instagram_link || '' %>"></div>
+        <div class="col-md-6"><label class="form-label"><i class="bi bi-facebook me-1"></i>Facebook</label><input type="text" name="facebook_link" class="form-control form-input" value="<%= settings.facebook_link || '' %>"></div>
+        <div class="col-md-6"><label class="form-label"><i class="bi bi-twitter-x me-1"></i>Twitter/X</label><input type="text" name="twitter_link" class="form-control form-input" value="<%= settings.twitter_link || '' %>"></div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-accent"><i class="bi bi-check-lg me-2"></i>Save All Settings</button>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

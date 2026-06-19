@@ -1,0 +1,20 @@
+<%- include('../partials/head') %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-main">
+  <div class="admin-topbar"><h1 class="admin-page-title">Policies</h1></div>
+
+  <form method="POST" action="/admin/policies">
+    <div class="glass-card mb-4">
+      <h6 style="font-family:var(--font-display);font-weight:600;margin-bottom:12px;"><i class="bi bi-shield-check me-2"></i>Privacy Policy</h6>
+      <textarea name="privacy" class="form-control form-input" rows="10"><%= policyMap.privacy || '' %></textarea>
+    </div>
+    <div class="glass-card mb-4">
+      <h6 style="font-family:var(--font-display);font-weight:600;margin-bottom:12px;"><i class="bi bi-file-text me-2"></i>Terms & Conditions</h6>
+      <textarea name="terms" class="form-control form-input" rows="10"><%= policyMap.terms || '' %></textarea>
+    </div>
+    <button type="submit" class="btn btn-accent"><i class="bi bi-check-lg me-2"></i>Save Policies</button>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>
