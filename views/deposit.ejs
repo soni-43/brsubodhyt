@@ -1,0 +1,74 @@
+<%- include('partials/head') %>
+
+<div class="section-header">
+  <h2 class="section-title"><i class="bi bi-plus-circle me-2"></i>Deposit</h2>
+</div>
+
+<% if (!depositEnabled) { %>
+  <div class="empty-state">
+    <i class="bi bi-pause-circle" style="color:var(--warning);"></i>
+    <p>Deposits are currently disabled. Please try again later.</p>
+  </div>
+<% } else { %>
+
+<% if (success) { %>
+  <div class="alert py-2 mb-3" style="font-size:13px;background:#10b98122;border:1px solid #10b98144;color:#10b981;border-radius:var(--radius-sm);">
+    <i class="bi bi-check-circle me-1"></i><%= success %>
+  </div>
+<% } %>
+
+<% if (error) { %>
+  <div class="alert py-2 mb-3" style="font-size:13px;background:#ef444422;border:1px solid #ef444444;color:#ef4444;border-radius:var(--radius-sm);">
+    <%= error %>
+  </div>
+<% } %>
+
+<!-- Deposit Info -->
+<div class="deposit-info-card">
+  <h6 style="color:var(--text-secondary);font-size:13px;margin-bottom:8px;">Payment Methods</h6>
+  <% if (parseFloat(bonusPercent) > 0) { %>
+    <div class="mb-2" style="background:linear-gradient(135deg,#fbbf2422,#f59e0b22);border:1px solid #fbbf2444;border-radius:var(--radius-xs);padding:8px 12px;">
+      <span style="color:var(--gold);font-weight:600;font-size:13px;"><i class="bi bi-gift me-1"></i><%= bonusPercent %>% Deposit Bonus!</span>
+    </div>
+  <% } %>
+  <% if (siteSettings.upi_id) { %>
+    <div class="mb-2">
+      <span style="color:var(--text-muted);font-size:12px;">UPI ID:</span>
+      <span style="color:var(--accent);font-weight:600;font-size:14px;"><%= siteSettings.upi_id %></span>
+    </div>
+  <% } %>
+  <% if (siteSettings.deposit_qr) { %>
+    <img src="<%= siteSettings.deposit_qr %>" alt="QR Code" class="qr-image">
+  <% } %>
+  <% if (siteSettings.contact_number) { %>
+    <div class="mt-2">
+      <span style="color:var(--text-muted);font-size:12px;">Contact:</span>
+      <span style="color:var(--text-primary);font-size:13px;"><%= siteSettings.contact_number %></span>
+    </div>
+  <% } %>
+  <div class="mt-2" style="font-size:11px;color:var(--text-muted);">
+    Min: ₹<%= minDeposit %> | Max: ₹<%= maxDeposit %>
+  </div>
+</div>
+
+<!-- Deposit Form -->
+<div class="glass-card">
+  <h6 style="font-family:var(--font-display);font-weight:600;margin-bottom:16px;">Submit Deposit</h6>
+  <form method="POST" action="/deposit">
+    <div class="mb-3">
+      <label class="form-label">Amount (&#8377;)</label>
+      <input type="number" name="amount" class="form-control form-input" placeholder="Enter amount" min="<%= minDeposit %>" max="<%= maxDeposit %>" step="0.01" required>
+    </div>
+    <div class="mb-4">
+      <label class="form-label">Transaction ID / UTR Number</label>
+      <input type="text" name="transaction_id" class="form-control form-input" placeholder="Enter transaction ID" required>
+    </div>
+    <button type="submit" class="btn btn-accent w-100">
+      <i class="bi bi-send me-2"></i>Submit Deposit Request
+    </button>
+  </form>
+</div>
+
+<% } %>
+
+<%- include('partials/footer') %>

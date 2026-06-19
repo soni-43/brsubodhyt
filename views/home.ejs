@@ -1,0 +1,135 @@
+<%- include('partials/head') %>
+
+<!-- Hero Section -->
+<div class="hero-section">
+  <h1 class="hero-title"><%= siteSettings.site_name || 'BR SUBODH YT' %></h1>
+  <p class="hero-subtitle">Premium API Marketplace - Fast & Reliable</p>
+</div>
+
+<!-- Feedback Section -->
+<% if (feedbacks && feedbacks.length > 0) { %>
+<div class="section-header">
+  <h2 class="section-title">Reviews</h2>
+</div>
+<div class="mb-4">
+  <% feedbacks.forEach(f => { %>
+  <div class="feedback-card animate-in">
+    <div class="feedback-stars">
+      <% for (let i = 0; i < f.rating; i++) { %><i class="bi bi-star-fill"></i><% } %>
+      <% for (let i = f.rating; i < 5; i++) { %><i class="bi bi-star"></i><% } %>
+    </div>
+    <p class="feedback-text"><%= f.message %></p>
+    <div class="feedback-author">- <%= f.name %> <span style="color:var(--text-muted);font-size:10px;">(<%= f.type %>)</span></div>
+  </div>
+  <% }) %>
+</div>
+<% } %>
+
+<!-- Social Tasks -->
+<% if (currentUser && tasks && tasks.length > 0) { %>
+<div class="section-header">
+  <h2 class="section-title"><i class="bi bi-trophy me-2"></i>Earn Rewards</h2>
+</div>
+<div class="mb-4">
+  <% tasks.forEach(task => { %>
+  <div class="task-card animate-in">
+    <div class="task-card-body">
+      <div class="task-platform-icon">
+        <% if (task.platform === 'Telegram') { %><i class="bi bi-telegram" style="color:#0088cc;"></i><% } %>
+        <% if (task.platform === 'WhatsApp') { %><i class="bi bi-whatsapp" style="color:#25D366;"></i><% } %>
+        <% if (task.platform === 'YouTube') { %><i class="bi bi-youtube" style="color:#FF0000;"></i><% } %>
+        <% if (task.platform === 'Instagram') { %><i class="bi bi-instagram" style="color:#E4405F;"></i><% } %>
+        <% if (task.platform === 'Facebook') { %><i class="bi bi-facebook" style="color:#1877F2;"></i><% } %>
+        <% if (task.platform === 'Twitter/X') { %><i class="bi bi-twitter-x"></i><% } %>
+      </div>
+      <div class="task-info">
+        <div class="task-name"><%= task.task_name %></div>
+        <div class="task-reward">+₹<%= parseFloat(task.reward).toFixed(0) %></div>
+      </div>
+      <div class="task-actions">
+        <a href="<%= task.task_url %>" target="_blank" class="btn btn-sm btn-outline-accent">Visit</a>
+        <button class="btn btn-sm btn-accent btn-complete-task" data-task-id="<%= task.id %>">Claim</button>
+      </div>
+    </div>
+  </div>
+  <% }) %>
+</div>
+<% } %>
+
+<!-- Feedback Unlock Buttons -->
+<% if (currentUser && (canDepositFeedback || canPurchaseFeedback)) { %>
+<div class="section-header">
+  <h2 class="section-title"><i class="bi bi-chat-heart me-2"></i>Share Feedback</h2>
+</div>
+<div class="mb-4">
+  <% if (canDepositFeedback) { %>
+  <div class="glass-card mb-2" style="border-left:3px solid var(--success);">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <div style="font-weight:600;font-size:14px;">Deposit Feedback</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Share your deposit experience</div>
+      </div>
+      <button class="btn btn-sm btn-accent" onclick="openDepositFeedback()">Give Feedback</button>
+    </div>
+  </div>
+  <% } %>
+  <% if (canPurchaseFeedback) { %>
+  <div class="glass-card mb-2" style="border-left:3px solid var(--accent);">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <div style="font-weight:600;font-size:14px;">API Purchase Feedback</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Rate your API purchase</div>
+      </div>
+      <button class="btn btn-sm btn-accent" onclick="openPurchaseFeedback()">Give Feedback</button>
+    </div>
+  </div>
+  <% } %>
+</div>
+<% } %>
+
+<!-- API List -->
+<div class="section-header">
+  <h2 class="section-title">Available APIs</h2>
+  <span class="section-subtitle"><%= apis.length %> APIs</span>
+</div>
+
+<% if (apis.length === 0) { %>
+<div class="empty-state">
+  <i class="bi bi-box-seam"></i>
+  <p>No APIs available right now. Check back later!</p>
+</div>
+<% } else { %>
+  <% apis.forEach(api => { %>
+  <div class="api-card animate-in">
+    <div class="api-card-header">
+      <div>
+        <div class="api-card-title"><%= api.title %></div>
+      </div>
+      <span class="api-label label-<%= api.label.toLowerCase().replace(/[^a-z0-9]/g, '') %>">
+        <% if (api.label === 'Guaranteed 100%') { %>&#11088; Guaranteed<% } %>
+        <% if (api.label === 'Premium') { %>&#9889; Premium<% } %>
+        <% if (api.label === 'Random') { %>&#127922; Random<% } %>
+        <% if (api.label === '50/50') { %>&#128293; 50/50<% } %>
+        <% if (api.label === 'VIP') { %>&#128142; VIP<% } %>
+      </span>
+    </div>
+    <div class="api-card-meta">
+      <span><i class="bi bi-folder"></i> <%= api.category %></span>
+      <span><i class="bi bi-box"></i> <%= api.available_quantity %> available</span>
+    </div>
+    <p class="api-card-desc"><%= api.description %></p>
+    <div class="api-card-footer">
+      <div class="api-price">&#8377;<%= parseFloat(api.price).toFixed(0) %> <small>/ API</small></div>
+      <% if (currentUser) { %>
+        <button class="btn-buy" data-id="<%= api.id %>" data-name="<%= api.title %>" data-price="<%= api.price %>">
+          <i class="bi bi-cart-plus me-1"></i> Buy Now
+        </button>
+      <% } else { %>
+        <a href="/login" class="btn-buy" style="text-decoration:none;">Login to Buy</a>
+      <% } %>
+    </div>
+  </div>
+  <% }) %>
+<% } %>
+
+<%- include('partials/footer') %>
