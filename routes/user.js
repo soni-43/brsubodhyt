@@ -85,7 +85,7 @@ router.post('/register/send-otp', requireGuest, async (req, res) => {
   }
   // Generate OTP
   const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-  await run("INSERT INTO otp_codes (mobile, code, purpose, expires_at) VALUES (?, ?, 'register', datetime('now', '+5 minutes'))",
+  await run("INSERT INTO otp_codes (mobile, code, purpose, expires_at) VALUES (?, ?, 'register', NOW() - INTERVAL 15 MINUTE '+5 minutes'))",
     [mobile, otpCode]);
   // In production, send via SMS API. For now, return OTP (dev mode)
   console.log(`[OTP] Registration OTP for ${mobile}: ${otpCode}`);

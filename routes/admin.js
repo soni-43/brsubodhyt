@@ -54,7 +54,7 @@ router.get('/', requireAdmin, async (req, res) => {
   const pendingDeposits = await getOne("SELECT COUNT(*) as count FROM deposits WHERE status = 'pending'");
   const pendingActivations = await getOne("SELECT COUNT(*) as count FROM purchases WHERE status = 'waiting'");
   const totalFeedback = await getOne('SELECT COUNT(*) as count FROM feedbacks');
-  const onlineUsers = await getOne("SELECT COUNT(*) as count FROM users WHERE last_login > datetime('now', '-15 minutes')");
+  const onlineUsers = await getOne("SELECT COUNT(*) as count FROM users WHERE last_login > NOW() - INTERVAL 15 MINUTE '-15 minutes')");
   
   res.render('admin/dashboard', {
     title: 'Admin Dashboard',
