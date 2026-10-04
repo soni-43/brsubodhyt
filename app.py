@@ -52,7 +52,7 @@ async def json_to_proto(json_data: str, proto_message: Message) -> bytes:
 def get_account_credentials(region: str) -> str:
     r = region.upper()
     if r == "IND":
-        return "uid=7884744079&password=366DF84FDE6EE4B8EE3A87D636BEEA69E89021C6E3A71B544797F60384D6A240"
+        return "uid=5918682139&password=94A203A1B16EA83E8A22EC46804421779FCD899395D9C9F2731A89DF5FB2A2A0"
     elif r in {"BR", "US", "SAC", "NA"}:
         return "uid=4044223479&password=EB067625F1E2CB705C7561747A46D502480DC5D41497F4C90F3FDBC73B8082ED"
     else:
